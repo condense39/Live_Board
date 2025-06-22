@@ -73,4 +73,8 @@ NEXT_PUBLIC_BACKEND_URL=https://your-backend.vercel.app
 - [ ] Check browser console for errors
 - [ ] Verify CORS settings
 
+## Vercel Framework Presets
+- **Backend**: Use "Other" framework preset
+- **Frontend**: Use "Next.js" framework preset
+
 🎉 **Deployment Complete!** Share your frontend URL to start collaborating! 

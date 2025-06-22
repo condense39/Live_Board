@@ -34,9 +34,9 @@ This guide will help you deploy your Live Board application on Vercel.
 2. Click "New Project"
 3. Import your backend GitHub repository
 4. Configure the following settings:
-   - **Framework Preset**: Node.js
+   - **Framework Preset**: Other
    - **Root Directory**: `./` (or leave empty)
-   - **Build Command**: Leave empty (not needed for Node.js)
+   - **Build Command**: Leave empty
    - **Output Directory**: Leave empty
    - **Install Command**: `npm install`
 
