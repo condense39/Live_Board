@@ -118,23 +118,19 @@ io.on('connection', (socket) => {
     if (existingUserIndex === -1) {
       const user = { id: socket.id, name: userName, isCreator, isOnline: true }
       room.users.push(user)
-      if (isCreator) {
-        room.permissions[socket.id] = 'edit'
-      } else {
-        // For now, let's give everyone edit permission in public rooms
-        // You could change this to 'view' for more complex permission models
-        room.permissions[socket.id] = 'edit'
-      }
+      // Always set edit permission for now (you can modify this logic later)
+      room.permissions[socket.id] = 'edit'
       console.log(`Added user ${userName} to room ${roomId}. Total users: ${room.users.length}`)
     }
 
     socket.join(roomId)
     
-    // Send room details to the joining user
+    // Ensure permission is set and send room details to the joining user
+    const userPermission = room.permissions[socket.id] || 'edit'
     socket.emit('room-joined', {
       room,
       users: room.users,
-      permission: room.permissions[socket.id] || 'edit'
+      permission: userPermission
     })
     
     // Inform other users in the room
