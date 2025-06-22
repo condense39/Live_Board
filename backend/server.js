@@ -74,7 +74,14 @@ io.on('connection', (socket) => {
     }
     
     socket.join(roomId)
-    io.to(roomId).emit('user-joined', { users: rooms[roomId].users })
+    // Emit to the creator that they have joined the room
+    socket.emit('room-joined', {
+      room: rooms[roomId],
+      users: rooms[roomId].users,
+      permission: 'edit'
+    });
+    // Inform other users (if any)
+    socket.to(roomId).emit('user-joined', { users: rooms[roomId].users })
   })
 
   socket.on('join-room', ({ roomId, userName, isCreator }) => {
