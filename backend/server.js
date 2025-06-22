@@ -127,6 +127,7 @@ io.on('connection', (socket) => {
     
     // Ensure permission is set and send room details to the joining user
     const userPermission = room.permissions[socket.id] || 'edit'
+    console.log(`Sending room-joined event to ${userName} with permission: ${userPermission}`)
     socket.emit('room-joined', {
       room,
       users: room.users,

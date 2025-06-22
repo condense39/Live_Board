@@ -42,9 +42,12 @@ const Whiteboard = () => {
   const [showNamePrompt, setShowNamePrompt] = useState(false)
   const [promptName, setPromptName] = useState('')
 
-  const canvasRef = useRef(null)
-
   const [messages, setMessages] = useState([])
+
+  // Debug permission changes
+  useEffect(() => {
+    console.log('Permission state changed to:', permission)
+  }, [permission])
 
   useEffect(() => {
     const nameFromQuery = router.query.name
@@ -66,7 +69,9 @@ const Whiteboard = () => {
   useEffect(() => {
     if (!socket) return
     const unSubRoomJoined = on('room-joined', (data) => {
-      console.log('Room joined:', data)
+      console.log('Room joined event received:', data)
+      console.log('Permission received:', data.permission)
+      console.log('Users received:', data.users)
       setUsers(data.users)
       setPermission(data.permission)
       setWaitingForApproval(false)
