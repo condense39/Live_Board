@@ -44,9 +44,9 @@ This guide will help you deploy your Live Board application on Vercel.
 In your Vercel project settings, add these environment variables:
 ```
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/whiteboard?retryWrites=true&w=majority
-FRONTEND_URL=https://your-frontend-domain.vercel.app
 NODE_ENV=production
 ```
+*Note: We will set the `FRONTEND_URL` variable after deploying the frontend.*
 
 **Replace the MongoDB URI with your actual connection string from Atlas**
 
@@ -62,18 +62,7 @@ NODE_ENV=production
 2. Push your `frontend/` folder to this repository
 3. Make sure all Next.js files are in the root of the frontend repository
 
-### 3.2 Update Frontend Environment
-Before deploying, update your frontend environment:
-
-1. Create `.env.local` file in your frontend directory:
-```
-NEXT_PUBLIC_BACKEND_URL=https://your-backend.vercel.app
-```
-
-2. Update the CORS origins in your backend `server.js`:
-Replace `'https://your-frontend-domain.vercel.app'` with your actual frontend URL
-
-### 3.3 Deploy Frontend
+### 3.2 Deploy Frontend
 1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
 2. Click "New Project"
 3. Import your frontend GitHub repository
@@ -84,24 +73,27 @@ Replace `'https://your-frontend-domain.vercel.app'` with your actual frontend UR
    - **Output Directory**: Leave empty
    - **Install Command**: `npm install`
 
-### 3.4 Set Environment Variables
+### 3.3 Set Environment Variables
 In your Vercel project settings, add:
 ```
 NEXT_PUBLIC_BACKEND_URL=https://your-backend.vercel.app
 ```
+**Replace the URL with your actual backend URL from Step 2.4**
 
-### 3.5 Deploy
+### 3.4 Deploy
 1. Click "Deploy"
 2. Wait for deployment to complete
-3. Your app will be available at the provided URL
+3. Your app will be available at the provided URL. **This is your actual frontend URL**. Copy it.
 
-## 🔄 Step 4: Update CORS Configuration
+## 🔄 Step 4: Connect Frontend and Backend
 
 After both deployments are complete:
 
-1. Go to your backend Vercel project
-2. Update the environment variable `FRONTEND_URL` with your actual frontend URL
-3. Redeploy the backend
+1. Go to your **backend** project on Vercel.
+2. Navigate to **Settings > Environment Variables**.
+3. Add the `FRONTEND_URL` variable with your actual frontend URL from Step 3.4 as the value.
+4. Go to the **Deployments** tab for your backend project.
+5. Find the latest deployment, click the menu (three dots), and select **"Redeploy"**.
 
 ## 🧪 Step 5: Test Your Deployment
 
@@ -123,7 +115,6 @@ After both deployments are complete:
 
 **Backend:**
 - `MONGODB_URI` - Your MongoDB Atlas connection string
-- `FRONTEND_URL` - Your frontend Vercel URL
 - `NODE_ENV` - Set to "production"
 
 **Frontend:**

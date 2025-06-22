@@ -20,8 +20,7 @@ const io = new Server(server, {
 // CORS configuration
 const allowedOrigins = [
   process.env.FRONTEND_URL,
-  'http://localhost:3000',
-  'https://your-frontend-domain.vercel.app' // You'll need to update this with your actual frontend URL
+  'http://localhost:3000'
 ].filter(Boolean)
 
 app.use(cors({
