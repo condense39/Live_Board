@@ -49,6 +49,8 @@ const Whiteboard = () => {
     console.log('Permission state changed to:', permission)
   }, [permission])
 
+  const canvasRef = useRef(null)
+
   useEffect(() => {
     const nameFromQuery = router.query.name
     if (router.isReady) {
