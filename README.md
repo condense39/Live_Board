@@ -3,7 +3,7 @@
 A real-time collaborative whiteboard application built with Next.js, Socket.IO, and MongoDB. Create boards, invite collaborators, and draw together in real-time with powerful drawing tools and export capabilities.
 
 
-##DEPLOYED_LINK= "https://live-board-k8m1-ec9o51pzf-condense39s-projects.vercel.app/" 
+##DEPLOYED_LINK= "https://live-board-k8m1.vercel.app/" 
 
 
 ## ✨ Features
