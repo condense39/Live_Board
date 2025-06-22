@@ -1,0 +1,30 @@
+{
+  "name": "live-board",
+  "version": "1.0.0",
+  "description": "Real-time collaborative whiteboard application",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "build": "cd frontend && npm run build",
+    "setup:deploy": "bash deploy-setup.sh"
+  },
+  "keywords": [
+    "whiteboard",
+    "collaboration",
+    "real-time",
+    "socket.io",
+    "next.js",
+    "mongodb"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+} 
