@@ -84,7 +84,7 @@ io.on('connection', (socket) => {
     socket.to(roomId).emit('user-joined', { users: rooms[roomId].users })
   })
 
-  socket.on('join-room', ({ roomId, userName, isCreator }) => {
+  socket.on('join-room', ({ roomId, userName }) => {
     console.log(`User ${userName} attempting to join room ${roomId}`)
     if (!rooms[roomId]) {
       // Room doesn't exist
@@ -94,7 +94,10 @@ io.on('connection', (socket) => {
     
     const room = rooms[roomId]
 
-    if (room.type === 'private' && room.creatorId !== socket.id && !isCreator) {
+    // Determine if the joining user is the creator
+    const isCreator = room.creatorId === socket.id;
+
+    if (room.type === 'private' && !isCreator) {
       const creatorSocket = io.sockets.sockets.get(room.creatorId);
       if (creatorSocket) {
         // Put user in a waiting state
@@ -115,7 +118,13 @@ io.on('connection', (socket) => {
     if (existingUserIndex === -1) {
       const user = { id: socket.id, name: userName, isCreator, isOnline: true }
       room.users.push(user)
-      room.permissions[socket.id] = 'edit' // All users get edit permission
+      if (isCreator) {
+        room.permissions[socket.id] = 'edit'
+      } else {
+        // For now, let's give everyone edit permission in public rooms
+        // You could change this to 'view' for more complex permission models
+        room.permissions[socket.id] = 'edit'
+      }
       console.log(`Added user ${userName} to room ${roomId}. Total users: ${room.users.length}`)
     }
 
