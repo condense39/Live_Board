@@ -73,7 +73,7 @@ bash
 bash
 cd backend
 npm install
-
+npm run dev
 
 Create .env file:
 env
@@ -86,6 +86,7 @@ PORT=5000
 bash
 cd frontend
 npm install
+npm run dev
 
 
 Create .env.local file:
