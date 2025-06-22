@@ -10,32 +10,27 @@ const { generateRoomId } = require('./utils/helpers')
 
 const app = express()
 const server = http.createServer(app)
+
+// Unified CORS options
+const corsOptions = {
+  methods: ['GET', 'POST'],
+  credentials: true,
+}
+
+if (process.env.NODE_ENV === 'production') {
+  corsOptions.origin = process.env.FRONTEND_URL;
+  console.log(`CORS configured for production. Allowing origin: ${process.env.FRONTEND_URL}`);
+} else {
+  corsOptions.origin = '*'; // Allow all for local development
+  console.log('CORS configured for development. Allowing all origins.');
+}
+
 const io = new Server(server, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST'],
-  },
+  cors: corsOptions,
 })
 
-// CORS configuration
-const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  'http://localhost:3000'
-].filter(Boolean)
-
-app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true)
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
-  credentials: true
-}))
+// Apply CORS to Express
+app.use(cors(corsOptions))
 
 app.use(express.json())
 
