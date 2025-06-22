@@ -15,15 +15,34 @@ const server = http.createServer(app)
 const corsOptions = {
   methods: ['GET', 'POST'],
   credentials: true,
-}
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
 
-if (process.env.NODE_ENV === 'production') {
-  corsOptions.origin = process.env.FRONTEND_URL;
-  console.log(`CORS configured for production. Allowing origin: ${process.env.FRONTEND_URL}`);
-} else {
-  corsOptions.origin = '*'; // Allow all for local development
-  console.log('CORS configured for development. Allowing all origins.');
-}
+    // For production, check against the FRONTEND_URL env var
+    // and allow any vercel.app subdomains for preview/branch deployments
+    if (process.env.NODE_ENV === 'production') {
+      try {
+        const originHostname = new URL(origin).hostname;
+        const allowedHostname = new URL(process.env.FRONTEND_URL).hostname;
+        
+        // Allow the main production URL or any Vercel preview/branch URL
+        if (originHostname === allowedHostname || originHostname.endsWith('.vercel.app')) {
+          return callback(null, true);
+        }
+      } catch (e) {
+        // Fallback for invalid URLs
+        return callback(new Error('Not allowed by CORS'));
+      }
+    } else {
+      // Allow all for local development
+      return callback(null, true);
+    }
+    
+    // Block all other origins
+    return callback(new Error('Not allowed by CORS'));
+  }
+};
 
 const io = new Server(server, {
   cors: corsOptions,
